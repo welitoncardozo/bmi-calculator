@@ -32,6 +32,11 @@ export default () => {
     setClassification(getClassification(bmi));
   };
 
+  const clearBmi = () => {
+    setBmi(undefined);
+    setClassification(Classification.DEFAULT);
+  };
+
   const getClassification = (bmi) => {
     if (bmi < 16) return Classification.GRAVE_THINNESS;
     if (bmi < 17) return Classification.MODERATE_THINNESS;
@@ -56,7 +61,7 @@ export default () => {
 
       <View style={styles.lineStyle} />
 
-      <PersonMeasurements calculateBmi={calculateBmi} />
+      <PersonMeasurements calculateBmi={calculateBmi} clearBmi={clearBmi} />
 
       <View style={styles.lineStyle} />
       

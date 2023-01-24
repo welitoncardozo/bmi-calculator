@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { TextInput, Text, View, StyleSheet, Pressable } from 'react-native';
 
-export default ({ calculateBmi }) => {
+export default ({ calculateBmi, clearBmi }) => {
     const [personMeasurements, setPersonMeasurements] = useState({ weight: undefined, height: undefined });
 
-    const isCannotCalculate = () => !personMeasurements.weight || !personMeasurements.height;  
+    const isCannotCalculate = () => !personMeasurements.weight || !personMeasurements.height;
+    const weightTextInput = useRef();  
 
     return (
       <View style={styles.measurements}>
@@ -14,6 +15,7 @@ export default ({ calculateBmi }) => {
           keyboardType='numeric'
           maxLength={5}
           onChangeText={(weight) => setPersonMeasurements({...personMeasurements, weight})}
+          ref={weightTextInput}
         />
 
         <TextInput                    
@@ -34,7 +36,12 @@ export default ({ calculateBmi }) => {
           </Pressable>
 
           <Pressable
-            style={styles.button(false)}          
+            style={styles.button(false)}
+            onPress={() => {
+              clearBmi();
+              setPersonMeasurements({ weight: undefined, height: undefined });
+              weightTextInput.current.focus();
+            }}
           >
             <Text>Limpar</Text>
           </Pressable>
